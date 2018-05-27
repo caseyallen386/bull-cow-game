@@ -1,45 +1,24 @@
 #pragma once
 #include "fBullCowGame.h"
 
-
+using FString = std::string;
+using int32 = int;
 
 void FBullCowGame::Reset()
 {
 	this->GameWon = false;
 	this->CurrentTry = 0;
-	
 }
 
-bool FBullCowGame::IsGameWon(std::string Guess)
+bool FBullCowGame::IsGameWon()
 {
-	return IsCorrect();
+	return this->GameWon;
 }
 
-void FBullCowGame::PrintIntro()
-{
-	std::cout << "Welcome to Bulls and Cows" << std::endl;
-	std::cout << "Can you guess the " << this->wordLength << " letter word I am thinking of?\n" << std::endl;
-
-}
-
-void FBullCowGame::start()
-{
-	PrintIntro();
-	PlayGame();
-}
- 
-std::string FBullCowGame::GetGuess()
-{
-	std::cout << "Try " << this->CurrentTry << ". Enter your Guess? ";
-	std::getline(std::cin, this->Guess);
-	
-	return this->Guess;
-}
-
-bool FBullCowGame::IsCorrect()
+bool FBullCowGame::IsCorrect(FString Guess)
 {
 	
-	if (this->Guess == this->Answer) {
+	if (Guess == this->Answer) {
 		return this->GameWon = true;
 	}
 	else {
@@ -48,10 +27,10 @@ bool FBullCowGame::IsCorrect()
 		this->cows = 0;
 		// Compiler warning consider using strcpy_s 
 		
-		for (int i = 0; i < wordLength; i++)
+		for (int32 i = 0; i < this->wordLength; i++)
 		{
 			
-			if (tolower(this->Answer[i]) == tolower(this->Guess[i])) 
+			if (tolower(this->Answer[i]) == tolower(Guess[i])) 
 			{
 				this->bulls++;
 			}
@@ -61,8 +40,8 @@ bool FBullCowGame::IsCorrect()
 					Loop through each letter of the guess checking if the 
 					letter matches but is In the wrong location
 				*/
-				for (int j = 0; j < this->Guess.length(); j++) {
-					if (j != i && this->Guess[j] != this->Answer[j] && this->Guess[j] == this->Answer[i]) {
+				for (int32 j = 0; j < Guess.length(); j++) {
+					if (j != i && Guess[j] != this->Answer[j] && Guess[j] == this->Answer[i]) {
 						this->cows++;
 					}
 				}
@@ -78,70 +57,31 @@ bool FBullCowGame::IsCorrect()
 	return false;
 }
 
-bool FBullCowGame::PlayAgain()
+int32 FBullCowGame::GetMaxTries()
 {
-	std::cout << "Would you like to play again? Y/n ";
-
-	std::string Response = "";
-	std::getline(std::cin, Response);
-
-	if (Response == "Y") {
-		this->Reset();
-		return true;
-	}
-
-	return false;
+	return this->MaxTries;
 }
 
-int FBullCowGame::GetMaxTries()
-{
-	return MaxTries;
+int32 FBullCowGame::GetBulls(){
+	return this->bulls;
 }
 
-void FBullCowGame::DisplayResponce(bool correct)
-{
-	if (correct) {
-		//display correct
-		std::cout << "Your Guess " << Guess << " Was Correct\n" << std::endl;
-	}
-	else {
-		//display incorrect
-		std::cout << "Nope but you have " << this->bulls << ": bulls and " << this->cows << ": cows\n" << std::endl;
-	}
+int32 FBullCowGame::GetCows() {
+	return this->cows;
 }
 
-void FBullCowGame::PlayGame()
-{
-
-	do {
-		//get a guess from the user
-		this->GetGuess();
-
-		if (this->Guess.length() != this->wordLength) {
-			std::cout << "You must enter a " << this->wordLength << " answer. Try Again\n\n";
-			this->CurrentTry++;
-			continue;
-		}
-
-		this->DisplayResponce(IsGameWon(Guess));
-		this->CurrentTry++;
-
-		//DisplayNumbOfGuesses(NumOfGuesses);
-	} while (this->CurrentTry != this->MaxTries && !this->GameWon);
-
-	if (this->PlayAgain()) {
-		this->PlayGame();
-	}
-
+void FBullCowGame::IncrementCurrentTry() {
+	this->CurrentTry++;
 }
 
-
-
-
-/*
-void DisplayNumbOfGuesses(int NumOfGuesses)
-{
-	std::cout << "You have " << NumOfGuesses << " Left\n" << std::endl;
+int32 FBullCowGame::GetMaxTries() {
+	return this->MaxTries;
 }
-*/
 
+int32 FBullCowGame::GetWordLength() {
+	return this->wordLength;
+}
+
+int32 FBullCowGame::GetCurrentTry() {
+	return this->CurrentTry;
+}

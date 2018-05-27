@@ -4,8 +4,8 @@
 #include <locale>
 #include <memory>
 
-
-
+using FString = std::string;
+using int32 = int;
 
 
 class FBullCowGame {
@@ -14,21 +14,14 @@ class FBullCowGame {
 private:
 
 	//class Members
-	std::string Answer = "Something";
-	int wordLength = Answer.length();
-	int bulls = 0;
-	int cows = 0;
-	int MaxTries;
-	int CurrentTry;
-	std::string Guess;
+	FString Answer = "Something";
+	int32 wordLength = Answer.length();
+	int32 bulls = 0;
+	int32 cows = 0;
+	int32 MaxTries;
+	int32 CurrentTry;
 
 	bool GameWon = false;
-	
-	
-	//Private methods
-	void Reset();
-	void PrintIntro();
-	void PlayGame();
 	
 public:
 	
@@ -37,34 +30,24 @@ public:
 		this->CurrentTry = 1;
 	}
 
-	//contsructor overload maybe
-
-	/*FBullCowGame(int tries, int wLength) {
+	FBullCowGame(int32 tries, FString answer) {
 		MaxTries = tries;
-		wordLength = wLength;
-	}*/
-
-	//Properties
-
-	int getMaxTries() {
-		return MaxTries;
+		this->Answer = answer;
+		this->wordLength = this->Answer.length();
 	}
 
-	int getWordLength() {
-		return wordLength;
-	}
 
-	int getCurrentTry() {
-		return CurrentTry;
-	}
+	void Reset();
+	void IncrementCurrentTry();
 
-	void start();
-	std::string GetGuess();
-	bool IsGameWon(std::string Guess);
-	bool IsCorrect();
-	bool PlayAgain();
-	int GetMaxTries();
-	void DisplayResponce(bool correct);
+	bool IsGameWon();
+	bool IsCorrect(FString);
 
+	int32 GetMaxTries();
+	int32 GetBulls();
+	int32 GetCows();
+	int32 GetMaxTries();
+	int32 GetWordLength();
+	int32 GetCurrentTry();
 
 };
