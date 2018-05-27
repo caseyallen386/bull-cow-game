@@ -11,14 +11,10 @@ void main()
 {
 	// Intro into the game
 
-	
-
 	PrintIntro();
 
+	// Start the Game
 	GameStart();
-	
-	
-	//repeat the guess to the user
 	
 }
 
@@ -43,6 +39,8 @@ void GameStart()
 			continue;
 		}
 
+		bool isCorrect = BCGame.IsCorrect(Guess);
+
 		DisplayResponce(BCGame.IsGameWon(), Guess);
 		BCGame.IncrementCurrentTry();
 
@@ -50,7 +48,7 @@ void GameStart()
 	} while (BCGame.GetCurrentTry() != BCGame.GetMaxTries() && !BCGame.IsGameWon());
 
 	if (PlayAgain()) {
-		Gamestart();
+		GameStart();
 	}
 }
 
